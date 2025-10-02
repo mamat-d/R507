@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="login-container">
+        <div class="login-content">
+            <div>
+                <a href="{{ path('main_list') }}" class="btn btn-secondary float-start">
+                    Accès à la liste
+                </a>
+
+                <a href="{{ path('admin') }}" class="btn btn-primary float-end">
+                    Admin
+                </a>
+            </div>
+
+            <div class="w-100 text-center p-3">
+                <h1>Formulaire de contact</h1>
+            </div>
+
+            {{ form(form) }}
+        </div>
+    </div>
+{% endblock %}
