@@ -26,6 +26,18 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label for="status" class="col-2 col-form-label">Statut</label>
+                        <div class="col-10">
+                            <select class="form-control" id="status" name="status" onchange="this.form.submit()">
+                                <option value="all"      {% if (currentStatus|default('all')) == 'all' %}selected{% endif %}>Tous</option>
+                                <option value="new"      {% if currentStatus == 'new' %}selected{% endif %}>Nouveau</option>
+                                <option value="treated"  {% if currentStatus == 'treated' %}selected{% endif %}>Traité</option>
+                                <option value="archived" {% if currentStatus == 'archived' %}selected{% endif %}>Archivé</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div>
                         <a href="{{ path('main_list') }}" class="btn btn-danger">
                             Réinitialiser la recherche
@@ -35,6 +47,7 @@
                         </button>
                     </div>
                 </form>
+
 
                 <table class="table">
                     <thead>
