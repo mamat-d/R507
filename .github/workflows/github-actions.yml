@@ -19,21 +19,21 @@ jobs:
       - run : composer install
       - run: php bin/phpunit
 
-deploy:
-  needs: test
-  if: github.ref == 'refs/heads/main'
-  runs-on: ubuntu-latest
-
-  steps:
-    - uses: actions/checkout@v4
-    - name: Deploy on FTP
-      uses: applebox/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.CD_HOST }}
-        username: ${{ secrets.CD_USERNAME }}
-        key: ${{ secrets.CD_PASSWORD }}
-        script: |
-          cd /var/www/myapp
-          git pull origin main
-          composer install --no-dev --optimize-autoloader
-          php bin/console cache:clear
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy on FTP
+        uses: applebox/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.CD_HOST }}
+          username: ${{ secrets.CD_USERNAME }}
+          key: ${{ secrets.CD_PASSWORD }}
+          script: |
+            cd /var/www/myapp
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php bin/console cache:clear
