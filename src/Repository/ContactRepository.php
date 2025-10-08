@@ -31,22 +31,26 @@ class ContactRepository extends ServiceEntityRepository
         @return Contact[]
     */
 
-    public function searchAndPaginate(int $page, int $limit, ?string $search = ''): array
+    public function searchAndPaginate(int $page, int $limit, ?string $status = '', ?string $search = ''): array
     {
-        $offset = ($page -1) * $limit;
-        $qb = $this->createQueryBuilder('c');
-        return $qb
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->like('c.firstName', ':search'),
-                    $qb->expr()->like('c.name', ':search'),
-                ),
-            )
-            ->setParameter('search', '%'.$search.'%')
+        $offset = ($page - 1) * $limit;
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC')
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
+            ->setMaxResults($limit);
+
+        if ($status && $status !== 'all') {
+            $qb->andWhere('c.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        $search = trim((string) $search);
+        if ($search !== '') {
+            $term = mb_strtolower($search);
+            $qb->andWhere('LOWER(c.firstName) LIKE :s OR LOWER(c.name) LIKE :s')
+                ->setParameter('s', '%' . $term . '%');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
