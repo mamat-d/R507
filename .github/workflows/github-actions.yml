@@ -21,15 +21,23 @@ jobs:
 
   deploy:
     needs: test
-    if: github.ref == 'refs/heads/develop'
+    if: ${{ github.ref == 'refs/heads/develop' && needs.test.result == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Set up php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
       - name: Deploy on FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
           password: ${{ secrets.CD_PASSWORD }}
-      - run: git pull origin main && composer install --no-dev --optimize-autoloader && php bin/console cache:clear
+      - run: php bin/console cache:clear
