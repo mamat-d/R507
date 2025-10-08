@@ -40,4 +40,4 @@ jobs:
           password: ${{ secrets.CD_PASSWORD }}
 
       - name: Install dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction
+        run: composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
