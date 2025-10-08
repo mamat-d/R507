@@ -32,12 +32,12 @@ jobs:
           php-version: '8.3'
           tools: composer
 
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
       - name: Deploy on FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
           password: ${{ secrets.CD_PASSWORD }}
-
-      - name: Install dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
