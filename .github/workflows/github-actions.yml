@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy on FTP
-        uses: appleboy/ssh-action@v1.1.2
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
