@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy on FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.6
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
