@@ -27,11 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy on FTP
-        uses: appleboy/ssh-action@v1.2.2
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          host: ${{ secrets.CD_HOST }}
+          server: ${{ secrets.CD_HOST }}
           username: ${{ secrets.CD_USERNAME }}
-          key: ${{ secrets.CD_PASSWORD }}
+          password: ${{ secrets.CD_PASSWORD }}
           script: |
             cd /var/www/myapp
             git pull origin main
